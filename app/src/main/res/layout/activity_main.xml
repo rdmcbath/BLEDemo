@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+    android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:paddingLeft="16dp"
+        android:textSize="20sp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="Bluetooth LE devices in range:" />
+
+    <ListView
+        android:id="@+id/deviceList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingLeft="16dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/scanButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:enabled="true"
+        android:onClick="onScan"
+        android:text="" />
+
+</LinearLayout>

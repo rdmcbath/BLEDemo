@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">BLEDemo</string>
+    <string name="ble_not_supported">BLE is not supported</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+    <string name="unknown_device">Unknown device</string>
+
+    <string name="screen_title_main">Device List</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Menu items -->
+    <string name="menu_connect">Connect</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_scan">Scan</string>
+    <string name="menu_stop">Stop</string>
+</resources>

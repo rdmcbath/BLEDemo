@@ -2,7 +2,6 @@ package com.mcbath.rebecca.bledemo;
 
 import android.Manifest;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.le.ScanResult;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -46,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 		private TextView macLabel;
 		private TextView deviceName;
 		private TextView macAddress;
-//		private TextView rssi;
+		private TextView rssiLabel;
+		private TextView rssi;
 	}
 
 	@Override
@@ -204,11 +204,11 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 	}
 
 	@Override
-	public void candidateBleDevice(final BluetoothDevice device, byte[] scan_record, int rssi) {
+	public void candidateBleDevice(final BluetoothDevice device, byte[] scan_record, final int rssi) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				ble_device_list_adapter.addDevice(device);
+				ble_device_list_adapter.addDevice(device, rssi);
 				ble_device_list_adapter.notifyDataSetChanged();
 				device_count++;
 			} });
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 			ble_devices = new ArrayList<>();
 		}
 
-		private void addDevice(BluetoothDevice device) {
+		private void addDevice(BluetoothDevice device, int rssi) {
 			if (!ble_devices.contains(device)) {
 				ble_devices.add(device);
 			}
@@ -265,7 +265,8 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 				viewHolder.deviceName = view.findViewById(R.id.nameTextView);
 				viewHolder.macLabel = view.findViewById(R.id.bdaddr_label);
 				viewHolder.macAddress = view.findViewById(R.id.bdaddr);
-//				viewHolder.rssi = view.findViewById(R.id.rssi);
+				viewHolder.rssiLabel = view.findViewById(R.id.rssi_label);
+				viewHolder.rssi = view.findViewById(R.id.rssi);
 				view.setTag(viewHolder);
 
 			} else {
@@ -282,9 +283,10 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 			}
 
 			// Mac Address
-			viewHolder.macLabel.setText("MAC Address");
+			viewHolder.macLabel.setText("MAC Address:");
 			viewHolder.macAddress.setText(device.getAddress());
-
+			viewHolder.rssiLabel.setText("RSSI:");
+			viewHolder.rssi.setText("placeholder rssi");
 			return view;
 
 		}

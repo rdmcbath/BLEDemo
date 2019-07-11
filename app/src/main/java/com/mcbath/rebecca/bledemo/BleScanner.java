@@ -71,10 +71,9 @@ public class BleScanner {
 
 		// Creates a ScanFilter object and uses it when scanning, so that only devices that are
 		// advertising with a device name of “CalAmp” will be passed to the MainActivity class for listing on the UI.
-		// Uncomment for testing
-
-//		ScanFilter filter = new ScanFilter.Builder().setDeviceName("CalAmp").build();
-//		filters.add(filter);
+		// Comment out next 2 lines to see all ble peripherals
+		ScanFilter filter = new ScanFilter.Builder().setDeviceName("CalAmp").build();
+		filters.add(filter);
 
 		ScanSettings settings = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build();
 

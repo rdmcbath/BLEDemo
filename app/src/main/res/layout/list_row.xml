@@ -41,30 +41,30 @@
 
 </RelativeLayout>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content">-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <!--<TextView-->
-        <!--android:id="@+id/rssi_label"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:paddingBottom="10dp"-->
-        <!--android:textSize="18sp"-->
-        <!--android:textColor="#0040FF"-->
-        <!--tools:text="RSSI"-->
-        <!--android:text="" />-->
+    <TextView
+        android:id="@+id/rssi_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:textSize="18sp"
+        android:textColor="#0040FF"
+        tools:text="RSSI"
+        android:text="" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/rssi"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:textSize="18sp"-->
-            <!--android:textColor="#0040FF"-->
-            <!--tools:text="-85"-->
-            <!--android:text="" />-->
+        <TextView
+            android:id="@+id/rssi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:layout_alignParentEnd="true"
+            android:textSize="18sp"
+            android:textColor="#0040FF"
+            tools:text="-85"
+            android:text="" />
 
-    <!--</RelativeLayout>-->
+    </RelativeLayout>
 </LinearLayout>

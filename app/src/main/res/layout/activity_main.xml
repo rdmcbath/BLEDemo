@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:enabled="true"
+        tools:text="Find Devices"
         android:onClick="onScan"
         android:text="" />
 

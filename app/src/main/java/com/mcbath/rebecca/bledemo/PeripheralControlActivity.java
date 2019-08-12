@@ -19,8 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.mcbath.rebecca.bledemo.BleAdapterService;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,7 +32,6 @@ public class PeripheralControlActivity extends Activity {
 
 	public static final String EXTRA_NAME = "name";
 	public static final String EXTRA_ID = "id";
-
 	private String device_name;
 	private String device_address;
 	private Timer mTimer;
@@ -42,7 +40,6 @@ public class PeripheralControlActivity extends Activity {
 	private boolean back_requested = false;
 	private boolean share_with_server = false;
 	private Switch share_switch;
-
 	private BleAdapterService bluetooth_le_adapter;
 	private final ServiceConnection service_connection = new ServiceConnection() {
 
@@ -81,7 +78,7 @@ public class PeripheralControlActivity extends Activity {
 		this.findViewById(R.id.midButton).setEnabled(false);
 		this.findViewById(R.id.highButton).setEnabled(false);
 
-		share_switch = (Switch) this.findViewById(R.id.switch1); share_switch.setEnabled(false);
+		share_switch = this.findViewById(R.id.switch1); share_switch.setEnabled(false);
 		share_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// complete this later
@@ -93,7 +90,8 @@ public class PeripheralControlActivity extends Activity {
 		bindService(gattServiceIntent, service_connection, BIND_AUTO_CREATE); showMsg("READY");
 	}
 
-	private void showMsg(final String msg) { Log.d(Constants.TAG, msg); runOnUiThread(new Runnable() {
+	private void showMsg(final String msg) {
+		Log.d(Constants.TAG, msg); runOnUiThread(new Runnable() {
 		@Override
 		public void run() {
 			((TextView) findViewById(R.id.msgTextView)).setText(msg); }
@@ -146,7 +144,10 @@ public class PeripheralControlActivity extends Activity {
 					break;
 				case BleAdapterService.GATT_SERVICES_DISCOVERED:
 					// validate services and if ok....
-					List<BluetoothGattService> slist = bluetooth_le_adapter.getSupportedGattServices();
+					List<BluetoothGattService> slist = new ArrayList<>();
+					if (bluetooth_le_adapter != null) {
+						 slist = bluetooth_le_adapter.getSupportedGattServices();
+					}
 					boolean link_loss_present = false;
 					boolean immediate_alert_present = false;
 					boolean tx_power_present = false;

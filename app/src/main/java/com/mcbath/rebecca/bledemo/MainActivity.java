@@ -18,7 +18,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +33,6 @@ import androidx.core.app.ActivityCompat;
 public class MainActivity extends AppCompatActivity implements ScanResultsConsumer {
 
 	private boolean ble_scanning = false;
-	private Handler handler = new Handler();
 	private ListAdapter ble_device_list_adapter;
 	private BleScanner ble_scanner;
 	private static final long SCAN_TIMEOUT = 5000;
@@ -113,11 +114,13 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 				} else {
 					Log.i(Constants.TAG, "Location permission has already been granted. Starting scanning.");
 					permissions_granted = true;
+					startScanning();
 				}
 			} else {
-				// the ACCESS_COARSE_LOCATION permission did not exist before M so.... permissions_granted = true;
+				// runtime permission not necessay for devices below M
+				permissions_granted = true;
+				startScanning();
 			}
-			startScanning();
 		} else {
 			ble_scanner.stopScanning();
 		}
@@ -125,17 +128,19 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 
 	private void requestLocationPermission() {
 		Log.i(Constants.TAG, "Location permission has NOT yet been granted. Requesting permission.");
-		if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)){
-
+		if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
 			Log.i(Constants.TAG, "Displaying location permission rationale to provide additional context.");
+
 			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Permission Required");
 			builder.setMessage("Please grant Location access so this application can perform Bluetooth scanning");
-			builder.setPositiveButton(android.R.string.ok, null); builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			builder.setPositiveButton(android.R.string.ok, null);
+			builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
 				public void onDismiss(DialogInterface dialog) {
 					Log.d(Constants.TAG, "Requesting permissions after explanation");
 					ActivityCompat.requestPermissions(MainActivity.this, new String[]{PERMISSIONS_LOCATION}, REQUEST_LOCATION);
-				} });
+				}
+			});
 			builder.show();
 		} else {
 			ActivityCompat.requestPermissions(this, new String[]{PERMISSIONS_LOCATION}, REQUEST_LOCATION);
@@ -152,9 +157,7 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 				// Location permission has been granted
 				Log.i(Constants.TAG, "Location permission has now been granted. Scanning.....");
 				permissions_granted = true;
-				if (ble_scanner.isScanning()) {
-					startScanning();
-				}
+				startScanning();
 			} else {
 				Log.i(Constants.TAG, "Location permission was NOT granted.");
 			}
@@ -211,9 +214,13 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 				ble_device_list_adapter.addDevice(device, rssi);
 				ble_device_list_adapter.notifyDataSetChanged();
 				device_count++;
-			} });
+			}
+		});
 	}
 
+	// --------------------
+	//      Adapter
+	// --------------------
 	public class ListAdapter extends BaseAdapter {
 		private ArrayList<BluetoothDevice> ble_devices;
 
@@ -265,8 +272,8 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 				viewHolder.deviceName = view.findViewById(R.id.nameTextView);
 				viewHolder.macLabel = view.findViewById(R.id.bdaddr_label);
 				viewHolder.macAddress = view.findViewById(R.id.bdaddr);
-				viewHolder.rssiLabel = view.findViewById(R.id.rssi_label);
-				viewHolder.rssi = view.findViewById(R.id.rssi);
+				//				viewHolder.rssiLabel = view.findViewById(R.id.rssi_label);
+				//				viewHolder.rssi = view.findViewById(R.id.rssi);
 				view.setTag(viewHolder);
 
 			} else {
@@ -285,8 +292,8 @@ public class MainActivity extends AppCompatActivity implements ScanResultsConsum
 			// Mac Address
 			viewHolder.macLabel.setText("MAC Address:");
 			viewHolder.macAddress.setText(device.getAddress());
-			viewHolder.rssiLabel.setText("RSSI:");
-			viewHolder.rssi.setText("placeholder rssi");
+			//			viewHolder.rssiLabel.setText("RSSI:");
+			//			viewHolder.rssi.setText("placeholder rssi");
 			return view;
 
 		}
